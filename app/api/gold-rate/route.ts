@@ -1,14 +1,14 @@
 import { NextResponse } from 'next/server';
 
 export const dynamic = 'force-static';
-export const revalidate = 300; // Cache for 5 minutes
+export const revalidate = 21600; // Cache for 6 hours
 
 export async function GET() {
   try {
     // 1. Fetch rates from MetalpriceAPI using the configured API key
     const apiKey = process.env.METALPRICE_API_KEY || '96b018d18fb46237e06ec6b44ec3df05';
     const res = await fetch(`https://api.metalpriceapi.com/v1/latest?api_key=${apiKey}`, {
-      next: { revalidate: 300 } // Cache for 5 minutes
+      next: { revalidate: 21600 } // Cache for 6 hours
     });
 
     let goldPriceUSD = 3242; // Fallback spot price per ounce (July 2026 baseline)

@@ -50,27 +50,28 @@ export default function LiveGoldRates() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [lastUpdated, setLastUpdated] = useState<string>("");
-  const [countdown, setCountdown] = useState<number>(60);
+  const [countdown, setCountdown] = useState<number>(21600); // 6 hours in seconds
+
+  const formatTime = (seconds: number) => {
+    const h = Math.floor(seconds / 3600).toString().padStart(2, "0");
+    const m = Math.floor((seconds % 3600) / 60).toString().padStart(2, "0");
+    const s = (seconds % 60).toString().padStart(2, "0");
+    return `${h}:${m}:${s}`;
+  };
 
   const fetchRates = async () => {
     try {
-      const res = await fetch(
-        "https://api.metalpriceapi.com/v1/latest?api_key=96b018d18fb46237e06ec6b44ec3df05&base=INR&currencies=XAU"
-      );
+      const res = await fetch("/api/gold-rate");
       if (!res.ok) {
         throw new Error(`Server returned status code ${res.status}`);
       }
       const data = await res.json();
-      if (data && data.success && data.rates && typeof data.rates.XAU === "number") {
-        const goldPricePerOunceINR = 1 / data.rates.XAU;
-        const goldPricePerGram24K = goldPricePerOunceINR / 31.1034768;
-        const goldPricePerGram22K = goldPricePerGram24K * 0.9167;
-
+      if (data && data.success && data.rates) {
         const newRates: GoldRates = {
-          pricePerGram24K: Math.round(goldPricePerGram24K),
-          pricePer10g24K: Math.round(goldPricePerGram24K * 10),
-          pricePerGram22K: Math.round(goldPricePerGram22K),
-          pricePer10g22K: Math.round(goldPricePerGram22K * 10),
+          pricePerGram24K: data.rates.gold24k.pricePerGram,
+          pricePer10g24K: data.rates.gold24k.pricePer10g,
+          pricePerGram22K: data.rates.gold22k.pricePerGram,
+          pricePer10g22K: data.rates.gold22k.pricePer10g,
         };
 
         setRates((prev) => {
@@ -80,17 +81,9 @@ export default function LiveGoldRates() {
           return newRates;
         });
 
-        const now = new Date();
-        setLastUpdated(
-          now.toLocaleTimeString("en-IN", {
-            hour: "2-digit",
-            minute: "2-digit",
-            second: "2-digit",
-            hour12: true,
-          })
-        );
+        setLastUpdated(data.lastUpdated || "--:--:--");
         setError(null);
-        setCountdown(60); // Reset timer
+        setCountdown(21600); // Reset timer
       } else {
         throw new Error("Invalid response format received from API.");
       }
@@ -104,10 +97,12 @@ export default function LiveGoldRates() {
 
   useEffect(() => {
     fetchRates();
-    const fetchInterval = setInterval(fetchRates, 60000);
+    // Poll the server-side API every 15 minutes to sync with server cache.
+    // The server cache revalidates every 6 hours, so this fetches the cached value with zero external overhead.
+    const fetchInterval = setInterval(fetchRates, 15 * 60 * 1000);
 
     const timerInterval = setInterval(() => {
-      setCountdown((prev) => (prev > 1 ? prev - 1 : 60));
+      setCountdown((prev) => (prev > 1 ? prev - 1 : 21600));
     }, 1000);
 
     return () => {
@@ -290,7 +285,7 @@ export default function LiveGoldRates() {
                     <div className="flex justify-between items-center text-xs">
                       <span className="text-[#B8B8B8]">Refresh Cycle</span>
                       <span className="text-white font-mono bg-white/5 border border-white/10 px-2 py-0.5 rounded">
-                        Every 60 Seconds
+                        Every 6 Hours
                       </span>
                     </div>
                     <div className="flex justify-between items-center text-xs">
@@ -303,7 +298,7 @@ export default function LiveGoldRates() {
                 <div className="pt-6 mt-6 border-t border-white/5 flex items-center justify-between text-xs">
                   <span className="text-[#B8B8B8]">Next Refresh in</span>
                   <span className="text-[#D4AF37] font-mono font-bold tracking-widest">
-                    {countdown}s
+                    {formatTime(countdown)}
                   </span>
                 </div>
               </div>
