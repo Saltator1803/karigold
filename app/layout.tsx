@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import CursorGlow from "@/components/CursorGlow";
 
 export const metadata: Metadata = {
   title: "KARIGOLD | India's First Karigar-First Gold Jewellery Brand",
@@ -13,13 +14,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="scroll-smooth bg-[#050505]">
+    <html lang="en" className="scroll-smooth bg-[#000000]">
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet" />
       </head>
-      <body className="font-sans antialiased text-[#F8F8F8] min-h-screen selection:bg-[#D4AF37] selection:text-black">
+      <body className="font-sans antialiased text-[#F8F8F8] min-h-screen selection:bg-[#D4AF37] selection:text-black bg-black">
+        <CursorGlow />
         {children}
       </body>
     </html>

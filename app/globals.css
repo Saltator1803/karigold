@@ -1,3 +1,4 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Outfit:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap");
 @import "tailwindcss";
 
 @theme {
@@ -6,28 +7,43 @@
   --color-gold-light: #F3E5AB;
   --color-gold: #D4AF37;
   --color-gold-dark: #AA7C11;
-  --color-bg: #050505;
-  --color-card: #0D0D0D;
+  --color-bg: #000000;
+  --color-card: #0A0A0A;
   --color-text-primary: #F8F8F8;
   --color-text-secondary: #B8B8B8;
 }
 
-/* Elegant Scrollbars */
+/* Base resets & typography details */
+html {
+  scroll-behavior: smooth;
+  background-color: #000000;
+}
+
+body {
+  font-family: var(--font-sans);
+  color: var(--color-text-primary);
+  background-color: #000000;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Elegant luxury scrollbars */
 ::-webkit-scrollbar {
-  width: 8px;
+  width: 6px;
 }
 ::-webkit-scrollbar-track {
-  background: #050505;
+  background: #000000;
 }
 ::-webkit-scrollbar-thumb {
-  background: #1a1a1a;
-  border-radius: 4px;
+  background: #111111;
+  border: 1px solid #1c1c1c;
+  border-radius: 10px;
 }
 ::-webkit-scrollbar-thumb:hover {
   background: #D4AF37;
 }
 
-/* Golden text and border glow utilities */
+/* Elegant Text & Glow Utilities */
 .gold-glow {
   text-shadow: 0 0 10px rgba(212, 175, 55, 0.4), 0 0 25px rgba(212, 175, 55, 0.15);
 }
@@ -37,28 +53,57 @@
 }
 
 .gold-border-glow {
-  box-shadow: 0 0 15px rgba(212, 175, 55, 0.12);
+  box-shadow: 0 0 15px rgba(212, 175, 55, 0.08);
 }
 
 .gold-border-glow-heavy {
-  box-shadow: 0 0 35px rgba(212, 175, 55, 0.35);
+  box-shadow: 0 0 35px rgba(212, 175, 55, 0.25);
 }
 
-/* Premium Glassmorphic Cards */
+/* Luxury Background Alternations */
+.bg-pure-black {
+  background-color: #000000;
+}
+
+.bg-dark-charcoal {
+  background-color: #090909;
+}
+
+.bg-deep-graphite {
+  background-color: #121212;
+}
+
+.luxury-gradient {
+  background: linear-gradient(180deg, #050505 0%, #161616 100%);
+}
+
+.radial-luxury {
+  background: radial-gradient(circle at center, #161616 0%, #000000 100%);
+}
+
+/* Premium Glassmorphic Cards (Apple / Linear style) */
 .glass-card {
-  background: rgba(13, 13, 13, 0.7);
-  backdrop-filter: blur(12px);
+  background: rgba(10, 10, 10, 0.65);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.glass-card-premium {
+  background: rgba(18, 18, 18, 0.55);
+  backdrop-filter: blur(25px);
+  -webkit-backdrop-filter: blur(25px);
   border: 1px solid rgba(212, 175, 55, 0.08);
 }
 
-.glass-card:hover {
-  border-color: rgba(212, 175, 55, 0.22);
-  box-shadow: 0 0 30px rgba(212, 175, 55, 0.08);
+.glass-card-premium:hover {
+  border-color: rgba(212, 175, 55, 0.25);
+  box-shadow: 0 10px 40px rgba(212, 175, 55, 0.04);
 }
 
 /* Precious Metallic Gradients */
 .gold-gradient-text {
-  background: linear-gradient(135deg, #FFF 0%, #F3E5AB 35%, #D4AF37 70%, #AA7C11 100%);
+  background: linear-gradient(135deg, #FFFFFF 0%, #F5E6B3 30%, #D4AF37 70%, #9E7817 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
@@ -67,21 +112,99 @@
   background: linear-gradient(135deg, #AA7C11 0%, #D4AF37 50%, #F3E5AB 100%);
 }
 
-.dark-gold-gradient {
-  background: linear-gradient(180deg, #121212 0%, #080808 100%);
+.gold-border-gradient {
+  border-image: linear-gradient(to right, #D4AF37, #AA7C11) 1;
+}
+
+/* Custom interactive components */
+.custom-cursor-glow {
+  position: fixed;
+  width: 400px;
+  height: 400px;
+  background: radial-gradient(circle, rgba(212, 175, 55, 0.04) 0%, rgba(212, 175, 55, 0) 70%);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9999;
+  transform: translate(-50%, -50%);
+  mix-blend-mode: screen;
+  transition: width 0.3s ease, height 0.3s ease;
 }
 
 /* Floating Golden Dust Particles */
 @keyframes floatParticles {
-  0% { transform: translateY(0px) scale(1); opacity: 0.15; }
-  50% { opacity: 0.7; }
-  100% { transform: translateY(-150px) scale(0.6); opacity: 0; }
+  0% {
+    transform: translateY(0) scale(1);
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.5;
+  }
+  90% {
+    opacity: 0.5;
+  }
+  100% {
+    transform: translateY(-200px) scale(0.6);
+    opacity: 0;
+  }
 }
 
 .gold-particle {
   position: absolute;
-  background: radial-gradient(circle, rgba(212,175,55,0.85) 0%, rgba(212,175,55,0) 70%);
+  background: radial-gradient(circle, rgba(212, 175, 55, 0.8) 0%, rgba(212, 175, 55, 0) 70%);
   border-radius: 50%;
   pointer-events: none;
-  animation: floatParticles 9s ease-in-out infinite;
+  animation: floatParticles 12s ease-in-out infinite;
+}
+
+/* Custom transitions and overlays */
+.image-zoom-container {
+  overflow: hidden;
+}
+
+.image-zoom-container img {
+  transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.image-zoom-container:hover img {
+  transform: scale(1.06);
+}
+
+/* Scroll Fade & Reveal Classes */
+.reveal-on-scroll {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+
+.reveal-on-scroll.active {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Apple-style smooth glass blur */
+.nav-scroll-blur {
+  background: rgba(0, 0, 0, 0.7) !important;
+  backdrop-filter: blur(25px) !important;
+  -webkit-backdrop-filter: blur(25px) !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05) !important;
+}
+
+/* Custom horizontal image strip animation */
+.infinite-scroll-container {
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.infinite-scroll-content {
+  display: inline-block;
+  animation: infiniteScroll 40s linear infinite;
+}
+
+@keyframes infiniteScroll {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
 }
